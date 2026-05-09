@@ -1,0 +1,30 @@
+name = "tsuji-x402-endpoint"
+main = "src/index.ts"
+compatibility_date = "2026-05-09"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets disabled in Phase 0 prototype:
+# Cloudflare Workers Assets が dot-prefixed (`.well-known/`) を blocked、 全 endpoint を src/index.ts で hard-code 化。
+# Phase 1 で必要なら再 enable + 別 path strategy (e.g. `well-known/` rename)
+# [assets]
+# directory = "./public"
+# binding = "ASSETS"
+
+# Phase 1 で実 deploy 時に enable:
+
+# [vars]
+# NAGAI_WALLET_BASE = "0x..."
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "tsuji-payment-tracking"
+# database_id = "..."
+
+# [[analytics_engine_datasets]]
+# binding = "ANALYTICS"
+# dataset = "tsuji_payments"
+
+# Phase 1 で custom domain 設定:
+# [routes]
+# pattern = "api.takuyanagai0213.com/*"
+# zone_name = "takuyanagai0213.com"

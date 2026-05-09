@@ -1,0 +1,23 @@
+{
+  "name": "tsuji-x402-endpoint",
+  "version": "0.1.0-phase0",
+  "description": "Takuya Nagai - tsuji (辻) x402 Payment Receiver endpoint(Phase 0 prototype)",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@coinbase/x402": "^2.1.0",
+    "hono": "^4.6.0",
+    "x402": "^1.2.0",
+    "x402-hono": "^1.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250509.0",
+    "typescript": "^5.6.0",
+    "wrangler": "^3.80.0"
+  }
+}

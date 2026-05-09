@@ -1,0 +1,27 @@
+# Sensitive(永井さま secret 絶対 push 禁止)
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-error.log
+
+# Cloudflare Workers
+.wrangler/
+
+# Build
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
