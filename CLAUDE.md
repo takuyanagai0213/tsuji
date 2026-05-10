@@ -211,7 +211,9 @@
 ## 関連
 
 - `~/MyWorkspace/tsuji/docs/ai-agent-commerce-landscape-2026-05-10.md` — 5 provider + 4 protocol fact 集約 + dis-intermediation 4 段歴史 pattern + tsuji niche position 整理(2026-05-10 cap stone)
+- `~/MyWorkspace/tsuji/docs/affiliate-industry-impact-2026-05-10.md` — アフィリエイト業界 + SEO メディア波及 fact 7 軸 + lag 構造 3 軸(Geographic / Scale / Vertical)+ 対応 短期 / 中期 / 長期(2026-05-10 cap stone)
 - [[thought_ai_agent_commerce_landscape_2026_05_10]] — memory bank 版 retrieval anchor(同内容、 永井さま個人 retrieval 用)
+- [[thought_affiliate_industry_lag_strategic_window_2026_05_10]] — memory bank 版 + 永井さま会社 specific 観察 + 個人 timing windows + 4 事業 candidate(秘匿)
 - [[thought_x402_protocol_for_solo_compound_2026_05_09]] — 本プロジェクトの primary source
 - [[thought_jphfa_x402_implementation_anchor_2026_05_09]] — Phase 1 戦略 大幅補強 anchor(jphfa zenn 記事 2 件統合、 フリーミアム default + Hono + D1 + Analytics Engine + 4 軸対応)
 - [[thought_solo_compound_holdings]] — 一人コンパウンド永井ホールディングス(永井さま自身結晶)
