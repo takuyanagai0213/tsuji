@@ -136,6 +136,15 @@
 - **deploy verify ✅**: Version ID `c8af4872-4962-4958-a2c5-4c63eb565987`、 4969.74 KiB(gzip 1373.78 KiB)、 既存 endpoints 全健康、 industry-fact 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
 - **declaration → supply の物理化第 9 段達成**(thought_tsuji_revenue_scale_strategy short-term path #3 完了)
 
+**Phase 1 物理証拠累積監視 装置完成 ✅(2026-05-10)** ─ jphfa anchor 整合の Analytics Engine binding(`tsuji_analytics` dataset) + middleware で全 endpoint access の datapoint 自動書き込み + SQL API 経由で User-Agent / path / topic / status / agent_type / country 別 breakdown query 可能化、 declaration → supply → **監視装置** の物理化第 10 段達成:
+
+- **Analytics Engine binding**: `ANALYTICS: tsuji_analytics`(永井さま Cloudflare account で Analytics Engine enable 済)
+- **datapoint schema**: blobs[0]=userAgent / [1]=path / [2]=method / [3]=status / [4]=topic / [5]=country / [6]=agentType / [7]=ray、 indexes=[path]
+- **AI agent classification 自動**: GPTBot / ChatGPT / Claude / Perplexity / GoogleOther / CCBot / anthropic-ai / OpenAI / Bedrock / Bytespider / Applebot / Amazonbot / YouBot / cohere / mistral 認識(`isAIAgent` helper)
+- **5/16 routine 集計 script**: `npm run metrics [1h|24h|7d|30d]`(default 24h)で 6 軸 breakdown(path 別 / AI agent UA 別 / topic 別 / status 別 / country 別 / summary)1 commande 取得
+- **動作確認 ✅**: PerplexityBot / Claude-Web / GPTBot 認識動作、 Topic + Status + Country 別 breakdown 取得確認、 Version ID `d79f9ca5-5a73-4e4b-8c4d-36d5f17172bd`
+- **5/16 routine 投下 anchor 完成**: 「実際に AI agent crawler が来ているか / どの topic が popular か / どの国から reach か」 を週次 cadence で 1 commande 観察可能 form
+
 残 task(2026-05-10 cap stone 時点、 別 turn 永井さま judgment trigger 待ち):
 
 ### 🚀 AI agent reach 加速 path(優先度高)
@@ -154,10 +163,13 @@
 - **@x402/hono v2 移行**(deprecated 警告対応、 私 15 分)
 - **AEO Phase 2 triangulation**(5/13 / 5/20 / 5/27 中間判定で AI agent endpoint URL citation 確認、 物理証拠累積監視)
 
-### 📊 物理証拠累積監視(Phase 2 trigger)
+### 📊 物理証拠累積監視(Phase 2 trigger)─ 装置完成 ✅
 
-- **AI agent reach 物理証拠 1 件以上 = Phase 2 trigger**: live endpoint への inbound 監視(Cloudflare Workers Analytics Engine 整備 = D1 + Analytics binding enable)
+- **Analytics Engine binding + middleware + 集計 script 完成 ✅**(本日 turn、 PR #3)
+- **5/16 routine 起動 form**: `cd ~/MyWorkspace/tsuji/prototypes/x402-endpoint && npm run metrics 7d`
+- **AI agent reach 物理証拠 1 件以上 = Phase 2 trigger** 観察軸:純粋 AI agent UA 別 reach の trend
 - 監視 cadence: 週次 routine(Phase 0.7 deploy 後 1 週間 = 5/16 で初回 review)
+- **D1 binding** はまだ未追加(payment tracking 用 candidate、 Phase 2 で別 turn)
 
 ### 🧠 思想 layer(別 turn judgment)
 
