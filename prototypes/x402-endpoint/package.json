@@ -8,7 +8,8 @@
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
     "typecheck": "tsc --noEmit",
-    "verify:mainnet": "tsx scripts/verify-mainnet.ts"
+    "verify:mainnet": "tsx scripts/verify-mainnet.ts",
+    "metrics": "bash scripts/metrics.sh"
   },
   "dependencies": {
     "@coinbase/x402": "^2.1.0",
