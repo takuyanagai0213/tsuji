@@ -20,9 +20,9 @@ compatibility_flags = ["nodejs_compat"]
 # database_name = "tsuji-payment-tracking"
 # database_id = "..."
 
-# [[analytics_engine_datasets]]
-# binding = "ANALYTICS"
-# dataset = "tsuji_payments"
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "tsuji_analytics"
 
 # Phase 1 で custom domain 設定:
 # [routes]

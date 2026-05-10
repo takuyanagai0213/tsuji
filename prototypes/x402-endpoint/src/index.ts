@@ -2,7 +2,12 @@ import { Hono } from "hono";
 import { paymentMiddleware } from "x402-hono";
 import { facilitator } from "@coinbase/x402";
 
-const app = new Hono();
+// Cloudflare Analytics Engine binding(2026-05-10 追加、 supply 第 1 弾後の物理証拠累積監視)
+type Bindings = {
+  ANALYTICS: AnalyticsEngineDataset;
+};
+
+const app = new Hono<{ Bindings: Bindings }>();
 
 const NAGAI_WALLET_BASE = "0x4d08AEB4776Aa82039bBA47db5d0bb5431d1c151"; // 永井さま Coinbase Smart Wallet on Base (2026-05-09 取得)
 const FACILITATOR_URL = "https://www.x402.org/facilitator"; // x402 Foundation default (testnet 中心、 mainnet は CDP facilitator + CDP API key 別途)
@@ -124,10 +129,39 @@ const INDUSTRY_FACTS: Record<string, unknown> = {
   },
 };
 
-// AI agent User-Agent 検出(参考、 middleware 適用後は判定不要)
+// AI agent User-Agent 検出(Analytics 書き込み時の agentType 判定 + 参考)
 const isAIAgent = (userAgent: string): boolean => {
-  return /GPTBot|ChatGPT|Claude|Perplexity|GoogleOther|CCBot|anthropic-ai|OpenAI|Bedrock/i.test(userAgent);
+  return /GPTBot|ChatGPT|Claude|Perplexity|GoogleOther|CCBot|anthropic-ai|OpenAI|Bedrock|Bytespider|Applebot|Amazonbot|YouBot|cohere|mistral/i.test(userAgent);
 };
+
+// Analytics Engine middleware(全 endpoint capture、 paymentMiddleware の前に置いて 402 含めて全 access を datapoint 化)
+app.use("*", async (c, next) => {
+  await next();
+
+  const userAgent = c.req.header("user-agent") || "unknown";
+  const path = c.req.path;
+  const method = c.req.method;
+  const status = String(c.res.status);
+  const topic = c.req.query("topic") || "";
+  const country = c.req.header("cf-ipcountry") || "unknown";
+  const ray = c.req.header("cf-ray") || "";
+  const agentType = isAIAgent(userAgent) ? "ai-agent" : "human-or-other";
+
+  c.env.ANALYTICS?.writeDataPoint({
+    blobs: [
+      userAgent.slice(0, 256), // truncate(blob max 5,120 bytes total per datapoint)
+      path,
+      method,
+      status,
+      topic,
+      country,
+      agentType,
+      ray,
+    ],
+    doubles: [],
+    indexes: [path], // 1 index 限定、 path で sampling
+  });
+});
 
 // x402 シグナル宣言 middleware(全 endpoint で対応宣言、 jphfa anchor「暖簾を出しておく」 戦略)
 app.use("*", async (c, next) => {
