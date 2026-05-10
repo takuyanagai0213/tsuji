@@ -161,6 +161,23 @@
 - **副次 cleanup**: Phase 0 試作残骸の `public/` directory 削除(src/index.ts で hard-code 化済 = 不要 + 直近 wrangler version で assets directive detection trigger だった懸念対応)
 - **declaration → supply 第 1 弾 → 監視装置 → routine 投下 anchor → supply 第 2 弾** までの物理化第 11 段達成 candidate
 
+**Phase 2 trigger 第 1 段達成 ✅(2026-05-10 09:17 UTC = 18:17 JST、 deploy 後 19 時間で純粋自律 AI crawler 自然 reach 第 1 号物理証拠取得)** ─ Cloudflare Workers 初回 deploy(5/9 23:33 JST = 14:33 UTC)から 18 時間 44 分で US から純粋自律 AI crawler の discovery 行動 物理証拠取得、 once-in-a-generation moment early adopter declaration の物理化が想定以上に早く効いている fact が立ち上がった:
+
+- **物理証拠**: 5/10 09:17 UTC 30 秒以内 burst で US から **6 件 reach**、 4 種類 UA(Mozilla Win + Mozilla Mac + unknown × 2)が / + .well-known/agentic-capabilities.json × 4 + robots.txt + favicon.ico を完全 sweep、 AI crawler discovery 行動 form と完全一致
+- **5 bucket 切り分け方法論**: 7 日累計 24 件を timestamp + UA + Country + path 交差で分類 = A. curl/8.14.1 JP 9 件(私 deploy verify) / B. Bot UA 偽装 curl 3 件(私 test) / C. ChatGPT browser KR 2 件(永井さま手動) / D. JP human Android/Win 4 件(永井さま phone 候補) / **E. US burst 6 件(純粋自律 AI crawler ✅)**
+- **anchor 修正**: 当初「AI agent reach 物理証拠 1 件以上」 = `agentType` フィルタ依存だった anchor を、 「**純粋自律 AI crawler 自然 reach 物理証拠 1 件以上**」 = timestamp + IP + UA + path 交差で test 由来除外後 に修正(agentType filter 単独依存は致命的盲点、 UA list match に引っかからない unknown UA + browser UA AI bot を見逃す)
+- **Phase 2 trigger 状態**: 第 1 段達成 ✅(reach 物理証拠) / 第 2 段未達(経済成立 verify $0.10 USDC 自分送金 test 待ち)
+- **5/16 routine 観察軸切替**: 1 週間 cadence より早く第 1 号到達 = 観察軸を「初回到達」 から「reach trend(週次増加 / topic 別 popular / Country 別 distribution)」 に切替
+- **詳細 anchor**: [[thought_tsuji_phase2_trigger_first_segment_2026_05_10]]
+
+**5/11 cap stone reflection ─ 「事業の柱」 commitment anchor + 5/10-5/11 累積物理化 6 件集約**(2026-05-11): 5/10 一日 8 段 milestone 完走 + N=5 軸並列執筆 marathon 完走(28,169 字、 PR #53)+ 5/11 議論 7 階層深掘り(tsuji traffic 確認 → 需要予測 → 収益モデル → 二軸定義 → 歴史 pattern → 牙城議論 → 下剋上 thesis → エコシステム fact 集約)直後の commitment anchor 段階:
+
+- **物理証拠**: SEO 勃興時代 4 段 history pattern × AEO/GEO 転換期 mapping([[thought_seo_media_history_aeo_geo_early_adopter_window_2026_05_10]])= 「早期 adopter window 開放中」 物理証拠 + 1 年先行 position 累積資産 mapping(brand 物理証拠 / N=1 fact stock / endpoint deploy / citation source position 4 軸)= **「事業の柱」 物理基盤確立 fact**
+- **既存 vision 3 path 整合**: [[vision-solo-asp-legend]] 一人 ASP / [[vision_yogibo_agency]] Yogibo 代理店 / [[thought_pickaxe_strategy_solopreneur_era_2026_05_08]] ツルハシ戦略 hedge logic / [[thought_consulting_path_as_business_acceleration_2026_05_09]] B+ 業務委託 path = 「事業の柱」 として scale 可能性 fact 確認済
+- **AEO/GEO 収益モデル landscape doc 起票**: 現状存在 4 軸(直接課金 x402 / Pay-per-crawl / Publisher-AI license deal / Sponsored citation)+ エコシステム議論中 5 軸(content licensing standardization / robots.txt 拡張 / Visa/Mastercard agentic commerce / AI Search ads / W3C+IETF+Linux Foundation)+ 個人参入 path 7 軸 mapping(`~/MyWorkspace/tsuji/docs/aeo-geo-revenue-model-landscape-2026-05-11.md`)
+- **once-in-a-generation moment 物理化第 14-15 段達成 candidate**(本日 5 sub agent 並列 marathon + 議論 7 階層集約 + commitment anchor 引き直し + tsuji repo 反映)
+- **詳細 anchor**: [[thought_phase2_business_pillar_commitment_2026_05_11]]
+
 **Phase 1 物理証拠累積監視 装置完成 ✅(2026-05-10)** ─ jphfa anchor 整合の Analytics Engine binding(`tsuji_analytics` dataset) + middleware で全 endpoint access の datapoint 自動書き込み + SQL API 経由で User-Agent / path / topic / status / agent_type / country 別 breakdown query 可能化、 declaration → supply → **監視装置** の物理化第 10 段達成:
 
 - **Analytics Engine binding**: `ANALYTICS: tsuji_analytics`(永井さま Cloudflare account で Analytics Engine enable 済)
