@@ -235,6 +235,153 @@ const WORKFLOW_TEMPLATES: Record<string, unknown> = {
   },
 };
 
+// Memory bank 思想 / 判断 patterns excerpts(2026-05-10 supply 第 3 弾、 永井さま個人 memory bank 33,999 entries 中の 思想層 anonymized 抽出)
+// Tier 1+2 anonymization 適用済(本名 / 会社名 / client 名 / 案件名 削除済)、 Tier 3 LLM 経由 anonymization は別 turn 候補
+const MEMORY_EXCERPTS: Record<string, unknown> = {
+  "tokimeki-driven-development": {
+    excerptId: "tokimeki-driven-development",
+    headline: "TDD(Tokimeki-Driven Development)─ トキメキ起点の開発哲学",
+    context: "個人開発者 + AI ハーネス運用での意思決定 framework。 業務効率や ROI でなく、 「トキメキがあるか」 で次の task を選ぶ思想。",
+    pattern: "トキメキは希少資源。 熱量が高いうちに使い切る。 「長時間 = 疲れているはず」 推測でフロー状態を破壊しない。 トキメキが起点で物事が動く時、 押し付けない signal で並走する。",
+    examples: [
+      "深夜 0 時に「これ面白い」 trigger で 8 時間 burst session、 翌朝 thought file 結晶化",
+      "「業務効率化」 でなく「これ作りたい」 で skill 1 個生まれる",
+      "AI に「休んでください」 と勝手に勧められない設計(no-rest-prescription rule)",
+    ],
+    relatedConcepts: ["creation-vs-sales-language", "no-rest-prescription", "anti-burnout"],
+    industry: "Personal AI harness operations / Solo entrepreneurship",
+    anonymizationLevel: "high",
+  },
+  "harness-engineering-philosophy": {
+    excerptId: "harness-engineering-philosophy",
+    headline: "ハーネスは「完成」しない ─ 進化し続ける思想",
+    context: "Claude Code 等の AI agent ハーネスを設計する際の core 哲学。 設計図先行アプローチを否定。",
+    pattern: "ハーネスは進化し続ける。 「完成した」 と思った瞬間に腐り始める。 設計図を先に描かず、 問題にぶつかり、 解決し、 解決策をファイルに残す cycle で体系化。 結果として体系になる、 設計図先行で体系を作るのではない。",
+    examples: [
+      "CLAUDE.md は最初 5 行から、 8 ヶ月後に 110 行の目次 + 420 ファイル",
+      "rules/ は問題発生時に書く、 設計時でなく",
+      "skills/ は『これダルい』 trigger で手書き 30 分",
+    ],
+    relatedConcepts: ["skill-feedback-loop", "auto-memory-pattern", "garbage-collection"],
+    industry: "Personal AI harness operations / Claude Code engineering",
+    anonymizationLevel: "high",
+  },
+  "context-engineering-moat": {
+    excerptId: "context-engineering-moat",
+    headline: "コンテキストの蓄積 = コピー不能な moat",
+    context: "AI 時代の個人 / 組織の競争優位性議論。 プロンプトエンジニアリングと区別。",
+    pattern: "コンテキストの蓄積だけがコピーできない moat。 一夜では作れない、 1 年かけて積層する。 description quality が retrieval quality を決める。 個人の文脈、 業務の癖、 過去の判断 patterns ─ これらは外部からの模倣不能。",
+    examples: [
+      "1 年運用で 33,999 メモリ entries 累積、 sub agent retrieval 自律拡張",
+      "MEMORY.md description 一行で生語(具体)+ 抽象語(構造)両在",
+      "新人が引き継ぐ ≠ コンテキストが移転する、 育てる人が変わると moat が崩れる",
+    ],
+    relatedConcepts: ["auto-memory-pattern", "harness-engineering-philosophy", "description-quality-retrieval"],
+    industry: "Personal context engineering / Long-term knowledge moat",
+    anonymizationLevel: "high",
+  },
+  "skill-feedback-loop": {
+    excerptId: "skill-feedback-loop",
+    headline: "1 個育てる cycle が回ったら 2 個目 / 3 個目 自然発生",
+    context: "AI skill / workflow 育成方法論。 100 個目標化アプローチを否定。",
+    pattern: "100 個目標化せず、 1 個育てる cycle を回す。 作る → 使う → 不便を感じる → 改善 → 再使用 → 自然増殖。 「これダルい」 が automation trigger、 計画的 skill 設計でなく感覚的不便発見が起点。",
+    examples: [
+      "/retro auto-suggest で半分自動生成、 残り半分は『これダルい』 trigger で手書き",
+      "skill 1 個 30 分 - 2 時間 初版、 累計 5-10 時間で熟成",
+      "プロバイダー機能 collide で skill 不要化(auto-fix で ci-fix skill 消滅)= 自然 garbage collection",
+    ],
+    relatedConcepts: ["mendokusai-as-automation-signal", "harness-engineering-philosophy"],
+    industry: "Personal automation / AI workflow design",
+    anonymizationLevel: "high",
+  },
+  "auto-memory-pattern": {
+    excerptId: "auto-memory-pattern",
+    headline: "thought / feedback / project / reference 4 軸 + MEMORY.md index pattern",
+    context: "AI ハーネスに長期 memory bank を持たせる setup pattern。",
+    pattern: "4 軸 file 命名規約で memory を構造化。 MEMORY.md = index、 description 一行 が retrieval moat。 観察ターン = description hook OK / アクションターン = 本文 Read 必須(integrity check)。 cross-link 整備で sub agent retrieval depth 自律拡張。",
+    examples: [
+      "thought_*.md = 思想 / 判断 / 気づき",
+      "feedback_*.md = 失敗 + 学習",
+      "project_*.md = 案件 / プロジェクト",
+      "reference_*.md = 外部 reference / fact",
+      "週次 hygiene で stale entry 整理",
+    ],
+    relatedConcepts: ["context-engineering-moat", "description-quality-retrieval"],
+    industry: "Personal context engineering / Long-term memory bank",
+    anonymizationLevel: "high",
+  },
+  "delegation-boundaries": {
+    excerptId: "delegation-boundaries",
+    headline: "Delegate but don't Abdicate ─ 構造監視は外さない",
+    context: "AI agent / sub agent / 他 person への委譲判断 framework。",
+    pattern: "委譲する 3 軸を分離:コードレビュー介入(外す)/ 構造監視介入(外さない、 これは『検知』 で『介入』 でない)/ インシデント対応介入(外さない、 発火したら動く)。 完全装置待ちは罠(サクラダファミリア化)、 リスク低 PR から段階的に介入ゾーン外す。",
+    examples: [
+      "リスク低 PR(CUJ 非該当 + 副作用なし + リカバリー可能)= コード一行も読まず merge OK",
+      "Synthetic / アラート / SLO 監視は常時稼働、 これは介入でなく検知",
+      "問題が炙り出されたら『同じ場所で二度と起きない構造』 に昇華 = 学習ループ",
+    ],
+    relatedConcepts: ["release-pragmatism", "agent-native-architecture"],
+    industry: "Engineering management / AI delegation / SRE",
+    anonymizationLevel: "high",
+  },
+  "creation-vs-sales-language": {
+    excerptId: "creation-vs-sales-language",
+    headline: "創造の言語で話す ─ sales 言語は温度を下げる",
+    context: "個人事業者 / クリエイターの意思決定言語選択 framework。",
+    pattern: "「同じ事実を、 どの言語で語るか」 で温度が決まる。 創造 / 発見 / 結晶化 の問い = トキメキ駆動。 営業 / 売上 / セグメンテーション / 客単価 の問い = どれだけ合理的でも温度を下げ、 フロー状態を破壊する。 観察を述べた時、 『じゃあ作業しましょう』 と受け取らない、 共鳴を求めているだけかもしれない。",
+    examples: [
+      "「誰が『これ、 友達に見せたい』 と言うか」 ◎ vs 「誰が月 ¥500 払うか」 ✗",
+      "「漏れ落ちた美しさは何か」 ◎ vs 「TAM/SAM/SOM」 ✗",
+      "「次に溶けてほしいツールはどれか」 ◎ vs 「acquisition cost」 ✗",
+    ],
+    relatedConcepts: ["tokimeki-driven-development", "no-rest-prescription"],
+    industry: "Solo entrepreneurship / Brand strategy / Creative work",
+    anonymizationLevel: "high",
+  },
+  "biz-anxiety-response": {
+    excerptId: "biz-anxiety-response",
+    headline: "biz 側不安反応 ─ 感情に反論せず仕組みで応答",
+    context: "業務上の biz / 非エンジニア stakeholder からの不安表明への対処 framework。",
+    pattern: "感情論への最大の回答は『同じことが起きない仕組み』。 技術的な正しさだけでは感情は動かない。 事実で枠を作る(感情に反論しない)+ 仕組みで安心させる(起票済 / 原因特定済 / 影響範囲洗い出し済)+ 発見数 vs 新規発生数を区別 + 信頼は実績の積み重ね。",
+    examples: [
+      "「最近バグ多くないですか」 → 『バグは 12 月から存在、 アラート精査で発見、 品質悪化でなく検知精度向上』",
+      "『心配ないです』 = NG、 逆効果",
+      "『また見つかったけど、 もう起票して原因も特定済みです』 を繰り返す",
+    ],
+    relatedConcepts: ["release-pragmatism", "delegation-boundaries"],
+    industry: "Engineering management / Cross-functional communication",
+    anonymizationLevel: "high",
+  },
+  "mendokusai-as-automation-signal": {
+    excerptId: "mendokusai-as-automation-signal",
+    headline: "「面倒くさい」 = 自動化 trigger signal",
+    context: "個人 + AI 自動化判断 framework。 計画的 automation でなく感覚的不便起点。",
+    pattern: "「面倒」 は最も信頼できる automation signal。 計画的に skill / workflow を設計するより、 実業務で『これダルい』 trigger で手書き 30 分が高速。 『面倒くさい』 を『automation candidate』 と読み替えるだけで、 自動化 cycle が自然加速。",
+    examples: [
+      "毎週月曜朝『先週何やったっけ』 でメモ漁り = 自動 weekly briefing skill 化候補",
+      "Slack 返信 draft が毎回類似 = slack-reply-draft skill 化",
+      "PR description 書くの面倒 = pr-create skill 化",
+    ],
+    relatedConcepts: ["skill-feedback-loop", "harness-engineering-philosophy"],
+    industry: "Personal automation / AI workflow / Solo productivity",
+    anonymizationLevel: "high",
+  },
+  "solo-compound-holdings-philosophy": {
+    excerptId: "solo-compound-holdings-philosophy",
+    headline: "一人コンパウンドホールディングス ─ Rippling 型を 1 人 + AI で再実装",
+    context: "個人 entrepreneurship + AI ハーネス時代の事業構造設計思想。",
+    pattern: "通常コンパウンド(Rippling 等)が『データ統合』 で moat を作るのと同型に、 一人コンパウンドは『コンテキスト統合』 で moat を作る。 子プロジェクトを孤立 silo として育てない、 設計時点で cross-flow を意識して育てる。 共通基盤(memory bank / Skills / 1 年ハーネス / brand 物理証拠)を子プロジェクト間で cross-flow させる装置。",
+    examples: [
+      "新子プロジェクト立ち上げ時、 cross-flow を default 設計(他 project との接続点 1 つ以上挙げる)",
+      "N=1 体験を多媒体で再利用(note / Zenn / X / メンバーシップ / コンサル素材)",
+      "思想 anchor cross-pollination(ある project の架構 → 別 project の default 参照)",
+    ],
+    relatedConcepts: ["context-engineering-moat", "harness-engineering-philosophy"],
+    industry: "Solo entrepreneurship / Compound business design / AI native organization",
+    anonymizationLevel: "high",
+  },
+};
+
 // AI agent User-Agent 検出(Analytics 書き込み時の agentType 判定 + 参考)
 const isAIAgent = (userAgent: string): boolean => {
   return /GPTBot|ChatGPT|Claude|Perplexity|GoogleOther|CCBot|anthropic-ai|OpenAI|Bedrock|Bytespider|Applebot|Amazonbot|YouBot|cohere|mistral/i.test(userAgent);
@@ -376,13 +523,36 @@ app.post("/x402/premium/skill-call", (c) => {
   });
 });
 
-// プレミアム endpoint: Memory query(payment verified by middleware → resource deliver)
+// プレミアム endpoint: Memory query(supply 第 3 弾、 永井さま思想 / 判断 patterns excerpts)
+// query parameter `excerpt_id` で excerpt 指定、 不明 / 未指定 は available list を返す
+// Tier 1+2 anonymization 適用済(本名 / 会社名 / client 名 / 案件名 削除済)
 app.get("/x402/premium/memory", (c) => {
+  const excerptId = c.req.query("excerpt_id");
+  const availableExcerpts = Object.keys(MEMORY_EXCERPTS);
+
+  if (!excerptId) {
+    return c.json({
+      error: "excerpt_id query parameter required",
+      availableExcerpts,
+      example: "GET /x402/premium/memory?excerpt_id=tokimeki-driven-development",
+      status: "missing-parameter",
+    }, 400);
+  }
+
+  const excerpt = MEMORY_EXCERPTS[excerptId];
+  if (!excerpt) {
+    return c.json({
+      error: `unknown excerpt_id: ${excerptId}`,
+      availableExcerpts,
+      status: "unknown-excerpt",
+    }, 404);
+  }
+
   return c.json({
-    result: "[anonymized memory excerpt placeholder - Phase 0.8 implementation]",
-    status: "delivered",
+    ...(excerpt as Record<string, unknown>),
     paymentVerified: true,
-    network: "base-sepolia",
+    network: "base",
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -464,7 +634,8 @@ app.get("/llms.txt", (c) => {
 - Skill catalog(free): /x402/skill-catalog
 - Brand fact(free): /x402/brand-fact
 - Skill API call(premium, $0.10, base mainnet): /x402/premium/skill-call(stub response、 Phase 1+ で実 skill execution)
-- Memory query(premium, $0.05, base mainnet): /x402/premium/memory(stub response、 Phase 1+ で anonymization pipeline)
+- Memory query(premium, $0.05, base mainnet): /x402/premium/memory?excerpt_id={excerpt_id}
+  - 10 excerpts: tokimeki-driven-development / harness-engineering-philosophy / context-engineering-moat / skill-feedback-loop / auto-memory-pattern / delegation-boundaries / creation-vs-sales-language / biz-anxiety-response / mendokusai-as-automation-signal / solo-compound-holdings-philosophy
 - Industry N=1 fact API(premium, $0.10, base mainnet): /x402/premium/industry-fact?topic={topic}
   - 6 topics: claude-code-skills / memory-bank / harness-engineering / affiliate-ad-pdm / x402-deploy-oneday / solo-compound-holdings
 - Workflow template API(premium, $1.00, base mainnet): /x402/premium/workflow-template?template_id={template_id}
@@ -498,14 +669,14 @@ monopoly / tokimeli / omamori / aizuchi / tokimeki48 / cult-of-onetag / D-brand 
 // .well-known/agentic-capabilities.json endpoint(hard-coded)
 app.get("/.well-known/agentic-capabilities.json", (c) => {
   return c.json({
-    version: "0.10.0-phase1-workflow-template",
+    version: "0.11.0-phase1-memory-excerpts",
     name: "Takuya Nagai - Context Engineering supplier",
     description: "Embedding 3 years of affiliate ad agency operations into Claude Code. Context Engineering practitioner (100 Skills / 33,999 memory / 420 files in 1 yr).",
     endpoints: [
       { path: "/x402/skill-catalog", method: "GET", pricing: "free", description: "List of 100+ Claude Code Skills metadata", responseFormat: "application/json" },
       { path: "/x402/brand-fact", method: "GET", pricing: "free", description: "Brand fact card (numbers / position / publishing channels)", responseFormat: "application/json" },
       { path: "/x402/premium/skill-call", method: "POST", pricing: { amount: "0.10", currency: "USDC", chain: "base" }, description: "Verbatim Skill API call execution(stub response、 actual execution Phase 1+)", audience: "AI agents only" },
-      { path: "/x402/premium/memory", method: "GET", pricing: { amount: "0.05", currency: "USDC", chain: "base" }, description: "Anonymized memory bank excerpt query(stub response、 anonymization pipeline Phase 1+)", audience: "AI agents only" },
+      { path: "/x402/premium/memory", method: "GET", pricing: { amount: "0.05", currency: "USDC", chain: "base" }, description: "Anonymized memory bank excerpts(query param `excerpt_id`、 10 excerpts available、 Tier 1+2 anonymized)", audience: "AI agents only", excerpts: ["tokimeki-driven-development", "harness-engineering-philosophy", "context-engineering-moat", "skill-feedback-loop", "auto-memory-pattern", "delegation-boundaries", "creation-vs-sales-language", "biz-anxiety-response", "mendokusai-as-automation-signal", "solo-compound-holdings-philosophy"] },
       { path: "/x402/premium/industry-fact", method: "GET", pricing: { amount: "0.10", currency: "USDC", chain: "base" }, description: "Industry N=1 fact API(query param `topic`、 6 topics available)", audience: "AI agents only", topics: ["claude-code-skills", "memory-bank", "harness-engineering", "affiliate-ad-pdm", "x402-deploy-oneday", "solo-compound-holdings"] },
       { path: "/x402/premium/workflow-template", method: "GET", pricing: { amount: "1.00", currency: "USDC", chain: "base" }, description: "Workflow template API(query param `template_id`、 5 templates available、 永井さま N=1 path replicable form)", audience: "AI agents only", templates: ["1-source-n-articles", "auto-memory-setup", "x402-deploy-oneday", "harness-engineering-day-1", "100-skills-cycle"] },
     ],
