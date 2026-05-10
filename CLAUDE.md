@@ -136,6 +136,19 @@
 - **deploy verify ✅**: Version ID `c8af4872-4962-4958-a2c5-4c63eb565987`、 4969.74 KiB(gzip 1373.78 KiB)、 既存 endpoints 全健康、 industry-fact 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
 - **declaration → supply の物理化第 9 段達成**(thought_tsuji_revenue_scale_strategy short-term path #3 完了)
 
+**Phase 1 supply 第 3 弾 memory excerpts endpoint 公開完了 ✅(2026-05-10)** ─ AI agent demand 4 軸の c(Memory query / Context retrieve)軸を物理化、 永井さま思想 / 判断 patterns 10 件 anonymized form で売る endpoint(既存 placeholder stub から 実 supply 化):
+
+- **endpoint**: `/x402/premium/memory?excerpt_id={excerpt_id}`(既存 stub を実装に置き換え)
+- **pricing**: $0.05 USDC on Base mainnet(維持、 軽量 retrieval form)
+- **10 excerpts hard-coded**(Tier 1+2 anonymization 適用済): tokimeki-driven-development / harness-engineering-philosophy / context-engineering-moat / skill-feedback-loop / auto-memory-pattern / delegation-boundaries / creation-vs-sales-language / biz-anxiety-response / mendokusai-as-automation-signal / solo-compound-holdings-philosophy
+- **response form**: excerptId / headline / context / pattern / examples / relatedConcepts / industry / anonymizationLevel
+- **anonymization**: Tier 1(本名 / 会社名 / client 名 / 案件名 keyword 削除済)+ Tier 2(pattern matching 適用済)、 Tier 3(LLM 経由 文脈判定)は別 turn 候補
+- **agentic-capabilities.json version**: `0.11.0-phase1-memory-excerpts`(0.10.0 → bump、 memory entry に 10 excerpts 配列追加)
+- **llms.txt update**: memory 行 + 10 excerpts 列挙
+- **deploy verify ✅**: Version ID `6064348b-ec62-45b4-9204-3360794f8d3b`、 既存 endpoints 全健康、 memory 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
+- **declaration → supply 1 → 監視装置 → routine anchor → supply 2 → supply 3** までの物理化第 12 段達成 candidate
+- **demand 4 軸物理化**: a(Discovery / Knowledge、 industry-fact)+ b(Skill execution / Replicate、 workflow-template)+ **c(Memory query / Context retrieve、 memory excerpts)**、 残り 1 軸(d:Consulting / Decision support、 human-in-the-loop)
+
 **Phase 1 supply 第 2 弾 workflow-template endpoint 公開完了 ✅(2026-05-10)** ─ AI agent demand 4 軸の b(Skill execution / Replicate)軸を物理化、 永井さま N=1 path を「真似可能 form」 で売る endpoint:
 
 - **endpoint**: `/x402/premium/workflow-template?template_id={template_id}`
