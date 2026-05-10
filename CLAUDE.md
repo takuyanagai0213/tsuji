@@ -118,13 +118,58 @@
 - **Version ID**: `4350e49c-af92-44e0-b308-dca023494168`
 - **AI agent が x402 client で endpoint access → Base mainnet 実 USDC payment → 永井さま wallet に実 USD 価値入金可能 form 完成**
 
-残 task:
+**GitHub repo 化完了 ✅(2026-05-10 00:?? JST)** ─ <https://github.com/takuyanagai0213/tsuji> Public、 secret 完全保護 verified:
 
-- Phase 1 verify ⏳ option: 永井さま自分送金 $0.10 USDC で実 payment + resource 取得 verify(永井さま手動 + $0.10 commit)
-- Phase 1 ⏳ option: custom domain 設定(api.takuyanagai0213.com、 10 分手動 + 私 wrangler.toml routes 設定)
-- 永井さま手動 X bio 編集(D 文案、 寝かせ可能)
-- @x402/hono v2 移行(別 turn、 v1 deprecated 警告対応)
-- Phase 1 trigger = AI agent reach 物理証拠 1 件以上 or 永井さま判断
+- **visibility**: Public(brand 整合 + AI crawler reach 強化、 oncea-in-a-generation moment 参加 declaration の物理化)
+- **content**: CLAUDE.md + README.md + docs/(architecture / x402-endpoint-design / wallet-setup-guide / cross-flow-with-other-subprojects)+ prototypes/x402-endpoint/(全 file)+ .gitignore
+- **secret 保護**: .env / node_modules / .wrangler 完全 ignored、 gh api で contents verify ✅
+- **initial commit**: 5/9-5/10 一日達成 milestone 5 段(Phase 0 → 0.5 → 0.7 → 0.8 → 1)集積
+
+**Phase 1 supply 第 1 弾 industry-fact endpoint 公開完了 ✅(2026-05-10 10:?? JST)** ─ AI agent demand 4 軸の a(Discovery / Knowledge)軸を物理化、 永井さま brand 物理証拠 既存資産活用、 declaration → supply への移行 第 1 段:
+
+- **endpoint**: `/x402/premium/industry-fact?topic={topic}`
+- **pricing**: $0.10 USDC on Base mainnet
+- **6 topics hard-coded**: claude-code-skills / memory-bank / harness-engineering / affiliate-ad-pdm / x402-deploy-oneday / solo-compound-holdings
+- **response form**: topic / headline / facts(数字 packaging)/ patterns / edgeCases / references(zenn / github)/ industry / paymentVerified / network / timestamp
+- **agentic-capabilities.json version**: `0.9.0-phase1-industry-fact`(0.8.0-phase08 → bump、 5 endpoints + topics 配列追加)
+- **llms.txt update**: industry-fact 行追加 + base-sepolia → base mainnet 表現修正(stale fix)
+- **deploy verify ✅**: Version ID `c8af4872-4962-4958-a2c5-4c63eb565987`、 4969.74 KiB(gzip 1373.78 KiB)、 既存 endpoints 全健康、 industry-fact 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
+- **declaration → supply の物理化第 9 段達成**(thought_tsuji_revenue_scale_strategy short-term path #3 完了)
+
+残 task(2026-05-10 cap stone 時点、 別 turn 永井さま judgment trigger 待ち):
+
+### 🚀 AI agent reach 加速 path(優先度高)
+
+永井さま観察(2026-05-10): ChatGPT 引用 = Zenn / note 中心、 GitHub 弱い fact 物理証拠化。 つまり PR #3(takuyanagai0213/README live URL paste)だけでは AI agent 自然 reach 起点として弱い、 真の加速 path は Zenn / note への live URL paste:
+
+- **A. 既存 Zenn 代表作 1-2 本末尾に「2026-05-10 update: x402 Phase 1 mainnet 完走、 live endpoint 公開」 1 行追記**(5-10 分、 ROI 最高、 私 draft + 永井さま zenn_articles repo PR push)← 推奨 ✅ **#1「100 Skills 全記録」 完了(zenn_articles PR #4 merged 5/10)、 #2「ハーネスエンジニアリング入門」 は別 turn 候補**
+- **B. 新規 Zenn 記事公開**(「5/9-5/10 x402 Phase 1 mainnet 一日完走 ストーリー」、 brand thesis「AI 時代の生き方を示す」 整合 + 連載シリーズ「ビジネススキル LLM 時代再定義」 追加軸 candidate、 1-3 時間)
+- **C. 新規 note 記事**(物語層、 永井さま個人 thesis ストーリー、 1-2 時間)
+- **D. X bio update + 引用 RT trigger**(live URL 1 行 paste、 5 分)
+
+### 🔧 Phase 1 完成形 + Phase 2 移行 path(優先度中)
+
+- **Phase 1 verify ⏳**: 永井さま自分送金 $0.10 USDC で実 payment + resource 取得 verify(永井さま手動 + $0.10 commit、 mainnet 完全動作物理証拠)
+- **custom domain 設定**(api.takuyanagai0213.com、 10 分手動 + 私 wrangler.toml routes 設定、 brand 整合 + AI クローラ discoverability 強化)
+- **@x402/hono v2 移行**(deprecated 警告対応、 私 15 分)
+- **AEO Phase 2 triangulation**(5/13 / 5/20 / 5/27 中間判定で AI agent endpoint URL citation 確認、 物理証拠累積監視)
+
+### 📊 物理証拠累積監視(Phase 2 trigger)
+
+- **AI agent reach 物理証拠 1 件以上 = Phase 2 trigger**: live endpoint への inbound 監視(Cloudflare Workers Analytics Engine 整備 = D1 + Analytics binding enable)
+- 監視 cadence: 週次 routine(Phase 0.7 deploy 後 1 週間 = 5/16 で初回 review)
+
+### 🧠 思想 layer(別 turn judgment)
+
+- **mainnet 移行 fact の brand 物理証拠化**: 「once-in-a-generation moment 第 6 段達成」 = Mac 半開き / 100 Skills / 33,999 memory に追加候補軸(物理化 4 軸 → 5 軸候補)
+- **連載シリーズ「ビジネススキル LLM 時代再定義」 に「AI 経済参加 N=1 実験」 軸追加検討**(5/8 brand thesis 整合)
+- **思想 peer 候補拡張**: jphfa(zenn.dev/jphfa)= 黄信号 default、 引用 RT は brand voice △ で default NG(`x-quote-rt-strategy.md` 整合)
+
+### 永井さま手動 trigger 待ち
+
+- 上記 A-D の進める / 寝かせる 判断
+- $0.10 USDC mainnet verify 進める判断
+- custom domain 取得 + 設定 判断
 
 ## 関連
 
