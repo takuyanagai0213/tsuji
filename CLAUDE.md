@@ -136,6 +136,18 @@
 - **deploy verify ✅**: Version ID `c8af4872-4962-4958-a2c5-4c63eb565987`、 4969.74 KiB(gzip 1373.78 KiB)、 既存 endpoints 全健康、 industry-fact 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
 - **declaration → supply の物理化第 9 段達成**(thought_tsuji_revenue_scale_strategy short-term path #3 完了)
 
+**Phase 1 supply 第 2 弾 workflow-template endpoint 公開完了 ✅(2026-05-10)** ─ AI agent demand 4 軸の b(Skill execution / Replicate)軸を物理化、 永井さま N=1 path を「真似可能 form」 で売る endpoint:
+
+- **endpoint**: `/x402/premium/workflow-template?template_id={template_id}`
+- **pricing**: $1.00 USDC on Base mainnet(industry-fact $0.10 より高単価、 「実装可能 form」 価値)
+- **5 templates hard-coded**: 1-source-n-articles / auto-memory-setup / x402-deploy-oneday / harness-engineering-day-1 / 100-skills-cycle
+- **response form**: templateId / headline / description / setupSteps / codeTemplate / referenceFiles / outcome / industry
+- **agentic-capabilities.json version**: `0.10.0-phase1-workflow-template`(0.9.0 → bump、 6 endpoints + templates 配列追加)
+- **llms.txt update**: workflow-template 行 + 5 templates 列挙
+- **deploy verify ✅**: Version ID `c247e91b-0567-49ad-80ff-9781893855c6`、 4982.33 KiB(gzip 1376.98 KiB)、 既存 endpoints 全健康、 workflow-template 402 + accepts payload に payTo 永井さま wallet + USDC mainnet asset 配信 confirmed
+- **副次 cleanup**: Phase 0 試作残骸の `public/` directory 削除(src/index.ts で hard-code 化済 = 不要 + 直近 wrangler version で assets directive detection trigger だった懸念対応)
+- **declaration → supply 第 1 弾 → 監視装置 → routine 投下 anchor → supply 第 2 弾** までの物理化第 11 段達成 candidate
+
 **Phase 1 物理証拠累積監視 装置完成 ✅(2026-05-10)** ─ jphfa anchor 整合の Analytics Engine binding(`tsuji_analytics` dataset) + middleware で全 endpoint access の datapoint 自動書き込み + SQL API 経由で User-Agent / path / topic / status / agent_type / country 別 breakdown query 可能化、 declaration → supply → **監視装置** の物理化第 10 段達成:
 
 - **Analytics Engine binding**: `ANALYTICS: tsuji_analytics`(永井さま Cloudflare account で Analytics Engine enable 済)
