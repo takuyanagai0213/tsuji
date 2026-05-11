@@ -9,7 +9,8 @@
     "tail": "wrangler tail",
     "typecheck": "tsc --noEmit",
     "verify:mainnet": "tsx scripts/verify-mainnet.ts",
-    "metrics": "bash scripts/metrics.sh"
+    "metrics": "bash scripts/metrics.sh",
+    "wallet": "bash scripts/wallet-receipts.sh"
   },
   "dependencies": {
     "@coinbase/x402": "^2.1.0",
