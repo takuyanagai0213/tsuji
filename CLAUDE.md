@@ -187,13 +187,22 @@
 - **動作確認 ✅**: PerplexityBot / Claude-Web / GPTBot 認識動作、 Topic + Status + Country 別 breakdown 取得確認、 Version ID `d79f9ca5-5a73-4e4b-8c4d-36d5f17172bd`
 - **5/16 routine 投下 anchor 完成**: 「実際に AI agent crawler が来ているか / どの topic が popular か / どの国から reach か」 を週次 cadence で 1 commande 観察可能 form
 
+**5/11 観察手段常設化 + 3 段現在地物理 confirm + zenn 流入経路 form 反映 ✅(2026-05-11)** ─ 親会社 session で永井さま「@tsuji のトラフィック分析」 + 「AI が実際に支払ったかどうか確認する術」 question 起点、 3 段分解 verify + 観察手段常設化 + zenn 末尾 form 修正:
+
+- **3 段現在地物理 confirm**: 段 1 reach signal ✅(402 signal 5 件発火、 AI agent UA 5 種 + Country 4 種 BE 新規 + `harness-engineering` topic AI fetch 第 1 号)/ 段 2 payment intent ✗(200 完了 0 件、 `X-PAYMENT` header 付き再 request ゼロ)/ 段 3 payment 完了 on-chain ✗(wallet ERC-20 transfer 0 件、 Blockscout API verify)= 「reach はあるが経済成立はゼロ」 物理 confirm、 Phase 2 trigger 第 2 段未達
+- **観察手段常設化**(tsuji PR #10 merge): `npm run metrics` section 4.5 = premium endpoint path × status × agent_type breakdown(段 2 観察、 自動判定 logic 込み)+ `npm run wallet` 新規 = Blockscout API 経由 wallet 着金 polling(段 3 観察)= 5/16 routine cadence で段 1-3 全部 1 命令観察可能 form
+- **zenn 流入経路 form 反映**(zenn_articles PR #6 merge): ハーネスエンジニアリング入門末尾 update を物理証拠 narrative form → endpoint catalog 5 件 + curl example form へ修正、 base URL <https://tsuji-x402-endpoint.nagataku021.workers.dev> 込みで AI agent / human reader が directly click 可能 form 完成
+- **D 引き継ぎ完了**: 新規記事「x402 early adopter window の現在地 ─ AI crawler 5 種来たけど 402 で止まる」 ink repo 別 session で執筆中、 brand thesis「AI 時代の生き方を示す」 整合最高
+- **session 学び anchor 3 軸**: retrieval lag 訂正 3 回 compound pattern / 段 1-3 観察手段常設化 method / form 修正 = 永井さま意図整合 path
+- **詳細 session log**: [[session-2026-05-11-tsuji-traffic-3-stage-verify-and-observation-tools-permanent]]
+
 残 task(2026-05-10 cap stone 時点、 別 turn 永井さま judgment trigger 待ち):
 
 ### 🚀 AI agent reach 加速 path(優先度高)
 
 永井さま観察(2026-05-10): ChatGPT 引用 = Zenn / note 中心、 GitHub 弱い fact 物理証拠化。 つまり PR #3(takuyanagai0213/README live URL paste)だけでは AI agent 自然 reach 起点として弱い、 真の加速 path は Zenn / note への live URL paste:
 
-- **A. 既存 Zenn 代表作 1-2 本末尾に「2026-05-10 update: x402 Phase 1 mainnet 完走、 live endpoint 公開」 1 行追記**(5-10 分、 ROI 最高、 私 draft + 永井さま zenn_articles repo PR push)← 推奨 ✅ **#1「100 Skills 全記録」 完了(zenn_articles PR #4 merged 5/10)、 #2「ハーネスエンジニアリング入門」 は別 turn 候補**
+- **A. 既存 Zenn 代表作 1-2 本末尾に「2026-05-10 update: x402 Phase 1 mainnet 完走、 live endpoint 公開」 1 行追記**(5-10 分、 ROI 最高、 私 draft + 永井さま zenn_articles repo PR push)← 推奨 ✅ **#1「100 Skills 全記録」 完了(PR #4 merged 5/10)+ #2「ハーネスエンジニアリング入門」 第 1 弾 完了(PR #5 merged 5/10)+ #2 第 2 弾 endpoint catalog form 修正 完了(PR #6 merged 5/11、 物理証拠 narrative → endpoint 流入経路 form 整合)**
 - **B. 新規 Zenn 記事公開**(「5/9-5/10 x402 Phase 1 mainnet 一日完走 ストーリー」、 brand thesis「AI 時代の生き方を示す」 整合 + 連載シリーズ「ビジネススキル LLM 時代再定義」 追加軸 candidate、 1-3 時間)
 - **C. 新規 note 記事**(物語層、 永井さま個人 thesis ストーリー、 1-2 時間)
 - **D. X bio update + 引用 RT trigger**(live URL 1 行 paste、 5 分)
