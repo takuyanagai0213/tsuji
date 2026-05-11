@@ -112,6 +112,32 @@ for r in d.get('data', []):
     print(f'  {r[\"status\"]:10} {r[\"reqs\"]:>6}')
 "
 
+# 4.5. Premium endpoint payment flow(段 2 = 経済成立 verify)
+echo ""
+echo "── 4.5. Premium endpoint payment flow(段 2 = 経済成立 verify)"
+echo ""
+run_sql "SELECT blob2 AS path, blob4 AS status, blob7 AS agent_type, count() AS reqs FROM tsuji_analytics WHERE blob2 LIKE '/x402/premium/%' AND timestamp >= NOW() - INTERVAL '$INTERVAL_VALUE' $INTERVAL_UNIT GROUP BY path, status, agent_type ORDER BY path, status FORMAT JSON" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+rows = d.get('data', [])
+total_402 = sum(int(r['reqs']) for r in rows if r['status'] == '402')
+total_200 = sum(int(r['reqs']) for r in rows if r['status'] == '200')
+print(f'  {\"path\":40} {\"status\":>6} {\"agent_type\":>15} {\"reqs\":>6}')
+print('  ' + '-' * 80)
+for r in rows:
+    print(f'  {r[\"path\"]:40} {r[\"status\"]:>6} {r[\"agent_type\"]:>15} {r[\"reqs\"]:>6}')
+if not rows:
+    print('  (no premium endpoint reach)')
+print('  ' + '-' * 80)
+print(f'  Phase 2 trigger 第 2 段:  402 signal = {total_402} 件 / 200 完了 = {total_200} 件')
+if total_200 == 0 and total_402 > 0:
+    print('  → 「reach はあるが経済成立はゼロ」 物理 confirm(段 2 ゼロ)')
+elif total_200 > 0:
+    print('  → ✅ 段 2 達成、 段 3 (on-chain USDC 着金) は npm run wallet で確認')
+else:
+    print('  → premium endpoint reach なし、 段 1 未達')
+"
+
 # 5. Country 別
 echo ""
 echo "── 5. Country 別 reach(地域 distribution)"
