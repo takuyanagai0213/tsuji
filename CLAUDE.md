@@ -196,6 +196,50 @@
 - **session 学び anchor 3 軸**: retrieval lag 訂正 3 回 compound pattern / 段 1-3 観察手段常設化 method / form 修正 = 永井さま意図整合 path
 - **詳細 session log**: [[session-2026-05-11-tsuji-traffic-3-stage-verify-and-observation-tools-permanent]]
 
+**Phase 1.5 discovery layer 完成 ✅(2026-05-12)** ─ ClaudeBot 既 reach 物理証拠(5/11-5/12 観察、 404 4 件 = `/robots.txt` 3 件 + `/sitemap.xml` 1 件)に対する **discovery layer 即解消**、 段 2 premium endpoint reach 0 件状態の構造的 pain への対応:
+
+- **永井さま「repo で今日のトラフィックを確認したい」 background session 起点**(2026-05-12 夜):`npm run metrics 24h` 観察(観察手段常設化 5/11 PR #10 整合の即発火) → ClaudeBot 4 件継続 reach + 段 2 premium endpoint reach 0 件継続 + 404 4 件 pain 物理証拠
+- **改善 candidate 4 軸提示 → A+B 採択**(A robots.txt / B sitemap.xml / C llms.txt 強化 / D 複数 AI agent crawler 強制 trigger)→ 永井さま「進めよう」 trigger
+- **15 分実装完走**(EnterWorktree + src/index.ts 105 lines insertion + agentic-capabilities.json `0.11.0` → `0.12.0-phase1-discovery-layer` + llms.txt update)
+
+新規 endpoint 2 件:
+
+- **`/robots.txt`**(635 bytes):`User-agent: *` Allow: / default + **14 AI agent UA explicitly welcomed**(GPTBot / ChatGPT-User / ClaudeBot / Claude-Web / anthropic-ai / PerplexityBot / GoogleOther / CCBot / Bytespider / Applebot / Amazonbot / cohere-ai / YouBot)+ Sitemap link
+- **`/sitemap.xml`**(5217 bytes、 `Object.keys()` 動的生成 SSOT 直接参照 form):**URL count 28**(public 7 + industry-fact 6 topic + workflow-template 5 + memory excerpt 10)+ `<lastmod>` + `<changefreq>weekly</changefreq>`
+
+連動 update:
+
+- **agentic-capabilities.json version**:`0.11.0-phase1-memory-excerpts` → **`0.12.0-phase1-discovery-layer`**(endpoints 6 → 8 件)
+- **llms.txt Discovery Channel Status section** に robots.txt / sitemap.xml 行 2 件追加
+
+deploy + verify:
+
+- **Version ID**: `0f1a0cb7-c4f5-4bb2-acff-9e0967911124`、 Worker size 4969 → **5002 KiB**(+33 KiB、 gzip 1373 → 1381 KiB)
+- **8 endpoint 全 verify ✅**(/robots.txt 200 / /sitemap.xml 200 / 既存 6 件 200 / ClaudeBot UA で premium endpoint 402 signal 配信確認)
+- **PR #12 merge ✅** <https://github.com/takuyanagai0213/tsuji/pull/12>(永井さま手動 merge)
+
+物理証拠 mapping(pain → fix → 仮説検証 trigger):
+
+- **Before**: `/robots.txt` × 3 件 reach(ClaudeBot、 全部 404) + `/sitemap.xml` × 1 件(404) = AI agent 規範経路探索が空振り
+- **After**: 14 AI agent UA explicitly welcomed + premium endpoint 21 件 sitemap 列挙
+- **仮説**: discovery layer 欠損 → 段 2 未達 の構造的原因 candidate、 sitemap 経由 ClaudeBot 次回 sweep で premium endpoint discover → 段 2 trigger 第 2 段(経済成立 verify)加速 candidate
+
+副次発見:
+
+- **段 1.5 = discovery layer 中間軸新規 anchor 化**(本 milestone で初出):段 1 reach signal 5/10 達成 / **段 1.5 discovery layer 5/12 完成** / 段 2 経済成立 verify 未達 の三段 form、 5/10 第 1 段達成と 5/12 第 2 段未達の間に明示的 milestone として追加
+- **私(Claude)awk pattern 範囲指定不適切 self-correction 物理証拠化**:retrieval misverification → sitemap.xml deploy 後 curl verify で自己訂正、 訂正連鎖 N=4 累積(永井さま訂正 trigger)とは別軸の「self-correction」 anchor、 `~/.claude/rules/verification.md` §2 sub-section 追加済
+- **CLI permission denied → MCP 直接 use 物理証拠 N=3 累積**:午前 ink PR #49 + 午後 Agent View session + 夜 tsuji PR #12 = 1 日 3 回 `tool-strategy.md` §17 anchor 整合実証
+- **zsh subshell for ループ内 curl path 解決失敗 N=1 観察**(macOS homebrew curl 環境):`/usr/bin/curl` フルパス指定で workaround、 2+ 回観察後 codify candidate(`tool-strategy.md` §20 candidate 追加済)
+- **once-in-a-generation moment 物理化 第 20 段達成 candidate**(5/9 第 8 段 / 5/10 第 9-13 段 / 5/10-5/11 第 14-19 段 chain 延長)
+
+5/19 routine 観察軸(`npm run metrics 7d`):
+
+1. `/robots.txt` / `/sitemap.xml` 200 reach 物理証拠(段 1 強化 verify)
+2. `/x402/premium/*` への AI agent UA 402 reach 増加 trend(段 1.5 = discovery → premium 経路成立 verify)
+3. `/x402/premium/*` 200 完了 reach 物理証拠(**Phase 2 trigger 第 2 段 = 経済成立 verify**)
+
+仮説検証: 5/19 routine で premium endpoint reach 増加 trend あれば「discovery layer 欠損 → 段 2 未達」 仮説 confirmed、 なければ C llms.txt 強化 or D 複数 AI agent crawler 強制 trigger(Zenn / note 経由)が真因 candidate。 詳細: [[session-2026-05-12-tsuji-discovery-layer]] / [[thought_tsuji_discovery_layer_completion_2026_05_12]]
+
 **5/13 traffic 24h 観察 + 両陣営 crawler reach 物理証拠 + C/D 軸 PR 投下 ✅(2026-05-13)** ─ 親会社 session で永井さま「今日のトラフィックを確認したい」 起点、 4 ターン累積で 3 段 verify → 完全 UA query → 改善 brainstorm → 推奨 C+D 採択 → 両 PR open まで完走:
 
 - **3 段現在地 24h**: 段 1 reach signal ✅ **AI agent 23 件**(5/11 の 4-5 倍増、 ClaudeBot 78% 中心、 US 集中、 reach 経路 = discovery layer (robots.txt + sitemap.xml) 経由 systematic crawl に転換)/ 段 2 payment intent ✗(0 件継続)/ 段 3 wallet 着金 ✗(0 件継続)= 「reach はあるが経済成立はゼロ」 構造継続
@@ -207,7 +251,7 @@
 - **永井さま手元判断 trigger 候補**: PR #66 merge / PR #14 merge / D 軸 $0.10 自己送金実行(余白 + トキメキ駆動)/ D 軸 verify 成功 → C 軸 publish trigger condition 達成 → 本文展開連鎖 / 5/16 routine 観察(段 2 再発火 trigger 観察)
 - **詳細 session log**: [[session-2026-05-13-tsuji-traffic-and-c-d-axis-prs]] / [[thought_brand_physical_evidence_middle_phase_form_2026_05_13]] / [[thought_tsuji_discovery_layer_4days_anthropic_openai_both_reach_2026_05_13]]
 
-残 task(2026-05-10 cap stone 時点、 別 turn 永井さま judgment trigger 待ち):
+残 task(2026-05-12 update 時点、 別 turn 永井さま judgment trigger 待ち):
 
 ### 🚀 AI agent reach 加速 path(優先度高)
 
