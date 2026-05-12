@@ -470,8 +470,108 @@ Phase 0.8 prototype, deployed via Cloudflare Workers + Hono + x402-hono middlewa
 For details, see:
 - /llms.txt
 - /.well-known/agentic-capabilities.json
+- /sitemap.xml
 - https://github.com/takuyanagai0213
 `);
+});
+
+// Discovery layer: robots.txt(AI agent crawler 規範経路)
+app.get("/robots.txt", (c) => {
+  return c.text(`# tsuji (辻) x402 endpoint
+# Takuya Nagai - AI agent friendly crawler policy
+
+User-agent: *
+Allow: /
+
+# AI agent crawlers explicitly welcomed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+Sitemap: https://tsuji-x402-endpoint.nagataku021.workers.dev/sitemap.xml
+`);
+});
+
+// Discovery layer: sitemap.xml(premium endpoint 全列挙、 AI crawler discovery 加速)
+app.get("/sitemap.xml", (c) => {
+  const BASE = "https://tsuji-x402-endpoint.nagataku021.workers.dev";
+  const today = new Date().toISOString().slice(0, 10);
+
+  // SSOT: src/index.ts 実装の hard-code IDs(advertised vs implemented drift 注意、 PR description 参照)
+  const industryFactTopics = Object.keys(INDUSTRY_FACTS);
+  const workflowTemplateIds = Object.keys(WORKFLOW_TEMPLATES);
+  const memoryExcerptIds = Object.keys(MEMORY_EXCERPTS);
+
+  const publicPaths = [
+    "/",
+    "/llms.txt",
+    "/.well-known/agentic-capabilities.json",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/x402/skill-catalog",
+    "/x402/brand-fact",
+  ];
+
+  const urls = [
+    ...publicPaths.map((p) => `${BASE}${p}`),
+    ...industryFactTopics.map(
+      (t) => `${BASE}/x402/premium/industry-fact?topic=${encodeURIComponent(t)}`,
+    ),
+    ...workflowTemplateIds.map(
+      (id) => `${BASE}/x402/premium/workflow-template?template_id=${encodeURIComponent(id)}`,
+    ),
+    ...memoryExcerptIds.map(
+      (id) => `${BASE}/x402/premium/memory?excerpt_id=${encodeURIComponent(id)}`,
+    ),
+  ];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    (loc) =>
+      `  <url><loc>${loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq></url>`,
+  )
+  .join("\n")}
+</urlset>
+`;
+
+  return c.body(xml, 200, { "Content-Type": "application/xml; charset=utf-8" });
 });
 
 // 無料 endpoint: Skill catalog(metadata only)
@@ -651,6 +751,8 @@ app.get("/llms.txt", (c) => {
 - GitHub README: https://github.com/takuyanagai0213
 - llms.txt: this file
 - .well-known/agentic-capabilities.json: machine-readable capability declaration
+- robots.txt: /robots.txt(14 AI agent UA explicitly allowed + Sitemap link)
+- sitemap.xml: /sitemap.xml(all public + premium endpoints enumerated for AI crawler discovery)
 
 ## Profile
 
@@ -669,10 +771,12 @@ monopoly / tokimeli / omamori / aizuchi / tokimeki48 / cult-of-onetag / D-brand 
 // .well-known/agentic-capabilities.json endpoint(hard-coded)
 app.get("/.well-known/agentic-capabilities.json", (c) => {
   return c.json({
-    version: "0.11.0-phase1-memory-excerpts",
+    version: "0.12.0-phase1-discovery-layer",
     name: "Takuya Nagai - Context Engineering supplier",
     description: "Embedding 3 years of affiliate ad agency operations into Claude Code. Context Engineering practitioner (100 Skills / 33,999 memory / 420 files in 1 yr).",
     endpoints: [
+      { path: "/robots.txt", method: "GET", pricing: "free", description: "Robots policy with Sitemap link, AI agent crawler friendly(14 UA explicitly allowed)", responseFormat: "text/plain" },
+      { path: "/sitemap.xml", method: "GET", pricing: "free", description: "XML sitemap enumerating all public + premium endpoints(industry-fact + workflow-template + memory excerpts)for AI crawler discovery", responseFormat: "application/xml" },
       { path: "/x402/skill-catalog", method: "GET", pricing: "free", description: "List of 100+ Claude Code Skills metadata", responseFormat: "application/json" },
       { path: "/x402/brand-fact", method: "GET", pricing: "free", description: "Brand fact card (numbers / position / publishing channels)", responseFormat: "application/json" },
       { path: "/x402/premium/skill-call", method: "POST", pricing: { amount: "0.10", currency: "USDC", chain: "base" }, description: "Verbatim Skill API call execution(stub response、 actual execution Phase 1+)", audience: "AI agents only" },
