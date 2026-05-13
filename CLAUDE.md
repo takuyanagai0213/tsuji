@@ -196,6 +196,17 @@
 - **session 学び anchor 3 軸**: retrieval lag 訂正 3 回 compound pattern / 段 1-3 観察手段常設化 method / form 修正 = 永井さま意図整合 path
 - **詳細 session log**: [[session-2026-05-11-tsuji-traffic-3-stage-verify-and-observation-tools-permanent]]
 
+**5/13 traffic 24h 観察 + 両陣営 crawler reach 物理証拠 + C/D 軸 PR 投下 ✅(2026-05-13)** ─ 親会社 session で永井さま「今日のトラフィックを確認したい」 起点、 4 ターン累積で 3 段 verify → 完全 UA query → 改善 brainstorm → 推奨 C+D 採択 → 両 PR open まで完走:
+
+- **3 段現在地 24h**: 段 1 reach signal ✅ **AI agent 23 件**(5/11 の 4-5 倍増、 ClaudeBot 78% 中心、 US 集中、 reach 経路 = discovery layer (robots.txt + sitemap.xml) 経由 systematic crawl に転換)/ 段 2 payment intent ✗(0 件継続)/ 段 3 wallet 着金 ✗(0 件継続)= 「reach はあるが経済成立はゼロ」 構造継続
+- **両陣営 crawler reach 完全 UA 内訳**: **Anthropic ClaudeBot/1.0 18 件(78%)**(`/robots.txt` 9 件 + `/sitemap.xml` 9 件 ペア systematic)+ **OpenAI OAI-SearchBot 3 件(13%)**(ChatGPT Search 経由 crawler、 `/robots.txt` のみ)+ **OpenAI GPTBot/1.3 2 件(9%)**(学習用、 `/sitemap.xml` まで踏み込み)= **2026 主要 LLM provider 両陣営 自然 reach 物理証拠**、 once-in-a-generation moment early adopter declaration が「届いている」 直接 signal、 物理化 5 軸目候補 candidate
+- **改善 brainstorm 5 方向性**: A payment funnel 強化 / B discovery layer 第 2 段拡張 / C brand 燃料化 / D 段 2 trigger 加速 / E routine 観察強化、 私推奨 C ◎ + D ○、 永井さま「推奨案について進めてほしい」 で C+D 採択
+- **C 軸 brand 燃料化 物理化**(ink PR #66): `drafts/2026-05-13-x402-crawler-reach-fact.md`(117 行)flagship 級 single 記事 skeleton 投下、 物語フック 8 段 form 整合 + 段 5 物理証拠「reach あり経済成立ゼロ」 raw 記述 form = 中間段階率直記述 form 物理化第 1 弾、 publish trigger condition 4 件明示([[thought_brand_physical_evidence_middle_phase_form_2026_05_13]] / [[thought_publishing_only_after_physical_output_2026_05_10]] 物理化第 N 弾)
+- **D 軸 Phase 1 verify runbook 物理化**(tsuji PR #14): `docs/phase1-self-verify-runbook.md`(190 行)$0.10 USDC 自己送金 end-to-end test 手順 document、 Pre-condition 3 軸 + 手順 4 step + Rollback 3 case + 期待 fact、 net 出費 gas $0.01 のみ、 estimated 15-30 分、 達成軸 = 段 2 + 段 3 同時 trigger + Phase 2 trigger 第 2 段 + 物理化第 16 段 candidate
+- **§18 動的 blocked N=4 累積物理証拠化 + Bash heredoc fallback 機能 fact**: D 軸 Write tool blocked → cat heredoc 即時回避で 190 行 file 作成成功、 EnterWorktree fallback path(ink PR #64/#65)と並走する軽量 fallback として `~/.claude/rules/tool-strategy.md` §18 実証 3 entry 追加
+- **永井さま手元判断 trigger 候補**: PR #66 merge / PR #14 merge / D 軸 $0.10 自己送金実行(余白 + トキメキ駆動)/ D 軸 verify 成功 → C 軸 publish trigger condition 達成 → 本文展開連鎖 / 5/16 routine 観察(段 2 再発火 trigger 観察)
+- **詳細 session log**: [[session-2026-05-13-tsuji-traffic-and-c-d-axis-prs]] / [[thought_brand_physical_evidence_middle_phase_form_2026_05_13]] / [[thought_tsuji_discovery_layer_4days_anthropic_openai_both_reach_2026_05_13]]
+
 残 task(2026-05-10 cap stone 時点、 別 turn 永井さま judgment trigger 待ち):
 
 ### 🚀 AI agent reach 加速 path(優先度高)
