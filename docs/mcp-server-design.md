@@ -24,6 +24,26 @@ MCP サーバー化すると到達構造が変わる:
 
 = 江戸の辻商売 metaphor の物理的完成形。これまで「辻に立っていたが品書きが無かった」状態から、「品書き(`tools/list`)を出した辻の店」になる。プル型整合(押し付けず、来た agent が見て選ぶ)。
 
+### トラフィック実測による裏付け(2026-05-23)
+
+上記の構造的問題は、現行 HTTP endpoint の実トラフィック(`npm run metrics 30d` / `npm run wallet`)で物理的に裏付けられる。
+
+| 段 | 内容 | 30 日間の実測 |
+|---|---|---|
+| 段1 到達 | endpoint への HTTP リクエスト | ✅ 324 req(AI agent 186 / human 138)、402 signal 68 件 |
+| 段2 経済成立 | premium endpoint の支払い完了(200) | ✗ **0 件**(X-Payment 付き再リクエストはゼロ) |
+| 段3 on-chain 着金 | ウォレットへの USDC 入金 | ✗ **0 件**(ERC-20 transfer なし) |
+
+「到達はあるが経済成立はゼロ」状態が継続している。内訳を見ると問題の構造が分かる:
+
+- **到達の 56% は crawler の discovery 行動**: `robots.txt` 103 + `sitemap.xml` 80 = 183 req。`ClaudeBot` が 142 req と突出 ── AI crawler が discovery ファイルを舐めているだけで、コンテンツ取得ではない。
+- **premium 402 の 68 件は需要シグナルではない**: 402 を返した相手の User-Agent はほぼ全て crawler 系(ClaudeBot)と `curl`(自己テスト)。**crawler は 402 を見ても支払わない。x402 を理解して自動決済する autonomous agent は1件も到達していない。**
+- **reach trend は下降中**: 5/12 ピーク 63 req → 直近は 1 日 6-7 req。novelty 切れで crawler の再訪頻度が落ちている。
+
+= 現行 HTTP endpoint は「生 URL を crawler に踏まれるだけ」の状態。x402 で支払う agent が来ない根本理由は、(a) そういう agent が生 HTTP URL を知らない(discovery が crawler 任せ)、(b) premium URL を踏んでいるのが決済しない crawler、の2点。**MCP サーバー化は到達する相手を「crawler」から「`tools/list` で発見し x402 で自動決済する MCP 対応 agent」に変える。** 本設計が解こうとしているのは、この実測された構造的ギャップそのものである。
+
+ただし制約も実測が示す:MCP 化は到達面の質を変えるが、「x402 対応 MCP client を持つ autonomous agent」がエコシステムにまだ少ない以上、段2 がすぐ動く保証はない(§8 の testnet 先行 → 実績後 mainnet 昇格の段階方針が、この現実に対する妥当な進め方)。
+
 ### 着地点
 
 **x402 で課金される MCP サーバー = 有料 MCP ツール。** 流れ:
@@ -330,6 +350,7 @@ new_sqlite_classes = ["TsujiMCP"]
 ## 10. Change history
 
 - 2026-05-23: 初版起票(設計レビュー待ち)。Anthropic の Stainless 買収を背景に、既存 x402 HTTP endpoint を MCP サーバー化する設計。Cloudflare Agents SDK `withX402`+`paidTool` 採用、同一 Worker に `/mcp` を追加、無料3 + 有料3 ツール、既存 HTTP 面は維持。
+- 2026-05-23: §1 に「トラフィック実測による裏付け」節を追加。30 日間の実測(到達 324 req / 経済成立 0 / 着金 0、到達の 56% が crawler discovery)で、MCP 化が解く構造的ギャップを物理証拠化。
 
 ## 関連
 
