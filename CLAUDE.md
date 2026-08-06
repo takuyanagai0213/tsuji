@@ -65,7 +65,7 @@
 - フリーミアム design = **✅ default 採用確定**(jphfa anchor「3 日で課金停止」 実証 → 全面課金は鎖国、 シグナル宣言 + 限定有料 endpoint で「暖簾を出す」)
 - 4 軸対応 = **✅ default 採用確定**(jphfa anchor:x402 シグナルヘッダー / llms.txt / コンテンツネゴシエーション / `.well-known/agentic-capabilities.json`)
 - prototype 8 ファイル完成 = **✅ `~/MyWorkspace/tsuji/prototypes/x402-endpoint/`** (Hono + x402 シグナル + 4 endpoint + llms.txt + .well-known/agentic-capabilities.json + wrangler.toml + README.md)
-- World ID 取得判断(Phase 2 timing、 「AI 決済の背後に実在人間」 signal)
+- World ID 取得判断(Phase 2 timing、 「AI 決済の背後に実在人間」 signal)= **✅ 事実上解消(2026-08-06、 Cloudflare Wallets handle `nagai` 予約で同役割を決済層で確保、 詳細 = 状態 section 8/6-8/7 entry)**
 - GitHub repo 化判断(public / private / local 専用)
 - deploy timing 判断(永井さま手動 6 step、 30 分、 README.md 詳細記載)
 
@@ -250,6 +250,15 @@ deploy + verify:
 - **§18 動的 blocked N=4 累積物理証拠化 + Bash heredoc fallback 機能 fact**: D 軸 Write tool blocked → cat heredoc 即時回避で 190 行 file 作成成功、 EnterWorktree fallback path(ink PR #64/#65)と並走する軽量 fallback として `~/.claude/rules/tool-strategy.md` §18 実証 3 entry 追加
 - **永井さま手元判断 trigger 候補**: PR #66 merge / PR #14 merge / D 軸 $0.10 自己送金実行(余白 + トキメキ駆動)/ D 軸 verify 成功 → C 軸 publish trigger condition 達成 → 本文展開連鎖 / 5/16 routine 観察(段 2 再発火 trigger 観察)
 - **詳細 session log**: [[session-2026-05-13-tsuji-traffic-and-c-d-axis-prs]] / [[thought_brand_physical_evidence_middle_phase_form_2026_05_13]] / [[thought_tsuji_discovery_layer_4days_anthropic_openai_both_reach_2026_05_13]]
+
+**8/6-8/7 Cloudflare Wallets catch-up + wallet handle `nagai` 予約 + 3 ヶ月ぶり traffic 実測 ✅(2026-08-06〜07)** ─ 親会社 session で永井さま「Cloudflare に wallet のサービスがリリースされたよね」 起点、 発表検証 → handle 予約 → 30d metrics 実測 → 「何を売るか」 示唆整理まで完走:
+
+- **Cloudflare Wallets 発表(2026-08-04)**: AI エージェントに identity + 財布を持たせるサービス。 Account Wallet(所有者が stablecoin 入出金)→ Virtual Wallet(エージェントに委譲、 API キー + 上限額 / allowlist / 取引サイズ制限等の spend control)の 2 層構造、 stablecoin + x402 対応、 Monetization Gateway と統合で「2 層型エージェント決済市場」。 現段階は wallet handle 予約受付のみ、 入出金 + Virtual Wallet 発行は今後数ヶ月。 **tsuji が 5/11 に物理 confirm した「段 2 / 段 3 ゼロ」 の構造的原因(AI エージェントが財布を持っていない)を埋める demand 側インフラが、 tsuji endpoint と同じ Cloudflare 上に出た** = 5/9 の「Cloudflare = x402 Foundation co-founder に賭ける」 deploy 先判断の答え合わせ
+- **wallet handle `nagai` 予約完了**: cloudflare.pay の `/api/check`(未認証 API)で候補 6 件空き確認(`tsuji` は既に taken)→ 永井さま判断で `nagai` 採択 → `https://cloudflare.pay/auth/login?tag=nagai` 経由で永井さま手動予約 → `/api/check` 再叩きで `TAG_TAKEN` + `nagai.cloudflare.pay` 302 応答 verify 済。 5 文字一般姓を発表 3 日目に確保。 **Phase 2 pending だった World ID 取得判断(「AI 決済の背後に実在人間」 signal)を事実上前倒し解消**(wallet handle = 「誰がこのエージェントを認可したか」 の恒久 ID、 同役割をより決済に近い層で果たす)
+- **30d traffic 実測(`npm run metrics 30d` + `npm run wallet`)**: 797 reqs / AI agent 670 件、 **ClaudeBot 575 件 = 30 日間毎日 20-30 件の定常巡回**(5/13 の 24h 23 件から巡回定着へ)、 GPTBot 33 件。 ただし AI agent の到達は robots.txt(350)+ sitemap.xml(318)のみで **premium endpoint への AI agent 到達 0 件 / 段 2 = 0 件 / 段 3 wallet 着金 = 0 件継続**。 402 発火 42 件は全て SemrushBot / human ブラウザ。 = 「AI は毎日目録だけ見に来て商品棚には触らない」 構造、 買い手型エージェント(財布持ちタスク実行 agent)の不在が原因で、 Cloudflare Wallets 発表と同じ一つの話を data 側から confirm
+- **「何を売るか」 示唆(brainstorm は別 session 保留、 永井さま「止めておこう」 判断)**: ① 短期 = クロールされる一次情報(ClaudeBot 定常巡回 = 既に観測されている需要、 Cloudflare Pay Per Crawl 路線と接続)/ ② 現 premium 商品(fact $0.10 / template $1.00)は公開 Web と競合 = 情報はコモディティ化する側、 「x402 で売れる状態を実証した装置」 と再定義 / ③ 中長期本命 = 人間の判断・保証・実行(demand 4 軸で唯一未実装の d 軸 consulting / human-in-the-loop、 [[thought_nagai_school_human_judgment_engineering_2026_08_03]] 「判断と責任の工学」 + 7/26 「保証を売る 7 領域」 整合)
+- **緊張軸 1 件明示**: Cloudflare が市場の両側(売り手課金 + 買い手財布)を握ると新仲介者化する(dashi で観察した食べログ構造の再演リスク)。 対処は分業明確化 = **決済インフラ層は乗る / 中身(一次情報・N=1 コンテキスト・判断)だけが自前**(`~/.claude/rules/strategy.md` §2 整合、 tsuji 当初設計と矛盾なし)
+- **次 action(Cloudflare ロールアウト待ち、 数ヶ月スパン)**: (a) Virtual Wallet 発行開放後、 自分のエージェント財布から $0.10 self-payment で段 2→3 初通し(既存 `docs/phase1-self-verify-runbook.md` がそのまま使える)/ (b) Monetization Gateway 売り手側オンボーディング開始の監視 / (c) 「402 で止まっていた話に財布が来た」 = ink PR #66 記事 skeleton の続編ネタ
 
 残 task(2026-05-12 update 時点、 別 turn 永井さま judgment trigger 待ち):
 
