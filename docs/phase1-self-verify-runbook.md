@@ -20,6 +20,15 @@ tsuji x402 endpoint Phase 1(2026-05-10 mainnet deploy 完成)を **end-to-end �
 2. **段 3 wallet 着金 verify**: USDC mainnet wallet (`0x4d08AEB4776Aa82039bBA47db5d0bb5431d1c151`) への着金 物理証拠
 3. **Phase 2 trigger 第 2 段達成**: 「reach はあるが経済成立はゼロ」 中間段階を 「reach + 経済成立」 完成段階に格上げ
 4. **brand 物理証拠**: once-in-a-generation moment 物理化第 16 段達成 candidate
+5. **公式ディスカバリ層(x402 Bazaar)の掲載要件を通す**(2026-08-11 追加、§6 参照)
+
+### 2026-08-11 追記 ── この runbook の意味が変わった
+
+作成時(5/13)の価値は「配管の疎通確認」だった。$0.11 の自己 test なので 3 ヶ月繰り延べられた。
+
+その間に判明した事実(`docs/2026-08-11-discovery-gap-and-absorbed-layers.md`):**x402 Bazaar の掲載要件は「CDP Facilitator 経由の課金成功 1 件」であり、tsuji は索引 14,650 件に不在**。つまり本 runbook は疎通確認ではなく **掲載ゲートの通過手段**になった。発見されるには 1 回売れている必要があり、売れるには発見されている必要がある ── この鶏卵を $0.11 で破る手が、既に書かれた状態で 3 ヶ月置かれていた。
+
+**Cloudflare Virtual Wallet の提供開始を待つ必要はない**(2026-08-04 発表分はハンドル予約のみ稼働)。本 runbook は既存の Coinbase Smart Wallet で完結する。
 
 ## Pre-condition check(5 分)
 
@@ -173,8 +182,53 @@ test 成功時:
 3. **tsuji CLAUDE.md update**: Phase 1 「verify 完了」 status 反映、 残 task list の「Phase 1 verify ⏳」 を ✅ 化
 4. **AI agent 自然 reach 待ち**: 自己 verify 完了後、 真の物理証拠軸 = 「他者 AI agent が x402 client 経由で reach + 経済成立」 fact 取得待ち、 Phase 2 trigger 完全達成への次 milestone
 
+## 6. Bazaar 掲載 verify(2026-08-11 追加)
+
+段 2 / 段 3 が通ったら、**公式ディスカバリ層に載ったか**を確認する。索引反映には facilitator 側の遅延があるので、送金直後と翌日の 2 回見る。
+
+### 掲載チェック(認証不要、読み取りのみ)
+
+```bash
+# 全 14,650 件を走査して自分の endpoint / wallet を探す
+python3 - <<'PY'
+import json, urllib.request
+base = "https://api.cdp.coinbase.com/platform/v2/x402/discovery/resources"
+items = []
+for off in range(0, 30000, 1000):
+    with urllib.request.urlopen(f"{base}?limit=1000&offset={off}", timeout=60) as r:
+        d = json.load(r)
+    got = d.get("items", [])
+    items += got
+    if len(items) >= d["pagination"]["total"] or not got:
+        break
+blob = json.dumps(items).lower()
+print("索引総数:", len(items), "/ declared", d["pagination"]["total"])
+for probe, label in [
+    ("4d08aeb4776aa82039bba47db5d0bb5431d1c151", "tsuji wallet"),
+    ("nagataku021", "tsuji host"),
+    ("workers.dev", "CONTROL: 他の workers.dev 販売者"),
+]:
+    print(f"{label:34} -> {blob.count(probe)} hits")
+PY
+```
+
+**CONTROL 行を必ず見る。** `workers.dev` が 0 なら API 側の異常か走査の不備であって「載っていない」の証拠にはならない(2026-08-11 時点の対照値は 411)。空の出力を結論に使わない。
+
+### 判定
+
+| 結果 | 意味 | 次 |
+|---|---|---|
+| tsuji wallet / host が 1 件以上 | **掲載成功。** 鶏卵を破った | 索引側に記録された自分の entry を読み、`inputSchema` / 出力例の欠落を確認して要件② を埋める |
+| 0 件のまま(CONTROL は正常) | 要件① の理解が誤り、または要件② が必須要件 | `docs/2026-08-11-...` §6 の負け条件に従って判定を訂正する。**期待値の方を書き換えない** |
+
+### 掲載後に効くこと
+
+- 索引経由の到達は robots.txt / sitemap.xml 経由の**クローラ到達とは別経路**(§1 の実測では後者は購買に繋がっていない)
+- Bazaar には「merchant address で検索」の経路があるので、wallet アドレスが恒久的な販売者 ID として働く
+
 ## 関連
 
+- `~/MyWorkspace/tsuji/docs/2026-08-11-discovery-gap-and-absorbed-layers.md` 呑まれた層の判定 + discovery gap の実測(本 runbook の意味を変えた doc)
 - `~/MyWorkspace/tsuji/CLAUDE.md` Phase 1 verify 残 task(永井さま手動 trigger 待ち)
 - `~/MyWorkspace/tsuji/docs/x402-endpoint-design.md` Phase 1 戦略詳細
 - `~/MyWorkspace/tsuji/docs/wallet-setup-guide.md` wallet setup 前提
