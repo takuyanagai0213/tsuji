@@ -30,6 +30,20 @@ tsuji x402 endpoint Phase 1(2026-05-10 mainnet deploy 完成)を **end-to-end �
 
 **Cloudflare Virtual Wallet の提供開始を待つ必要はない**(2026-08-04 発表分はハンドル予約のみ稼働)。本 runbook は既存の Coinbase Smart Wallet で完結する。
 
+### ⚠️ 2026-08-11 訂正 ── 対象 endpoint を `skill-call` から `industry-fact` に変更した
+
+**旧版のまま実行すると、払っても決済が確定せず、掲載要件も満たさない。** ローカル実測(対照つき)で確認した:
+
+| 検証 | 結果 |
+|---|---|
+| 課金 gate を外して `GET /x402/premium/skill-call` | **404**(handler が `app.post` のみ) |
+| 対照: 同 path に `POST` | 200 |
+| x402-hono の settle 条件(実装を読んだ) | `await next(); if (res.status >= 400) { return; }` = **4xx なら settle しない** |
+
+つまり `skill-call` を GET で払うと **404 → 決済未確定**。金は取られないが成功もせず、「払ったのに何も起きない」で終わる。加えて 402 payload は(GET で来たので)`method: "GET"` と広告しており、**広告と実装が食い違っている**。
+
+対象を **`/x402/premium/industry-fact`(GET / $0.10 / 実データを返す)** に変更した。`skill-call` 側の defect は本 runbook では直していない(有料 endpoint の挙動変更は product 判断)。
+
 ## Pre-condition check(5 分)
 
 ### 1. wallet 状態確認
@@ -44,9 +58,9 @@ npm run wallet
 ### 2. endpoint health check
 
 ```bash
-# premium endpoint が 402 を正しく返すか確認
+# premium endpoint が 402 を正しく返すか確認(2026-08-11: 対象を industry-fact に変更)
 curl -sS -i -A "MyTestAgent/1.0" \
-  "https://tsuji-x402-endpoint.nagataku021.workers.dev/x402/premium/skill-call?skill_id=description-quality"
+  "https://tsuji-x402-endpoint.nagataku021.workers.dev/x402/premium/industry-fact?topic=harness-engineering"
 
 # 期待出力(headers):
 # HTTP/1.1 402 Payment Required
@@ -78,7 +92,7 @@ USDC 残高不足の場合:
 ```bash
 # 公式 x402 client
 npx --yes @coinbase/x402-fetch \
-  --url "https://tsuji-x402-endpoint.nagataku021.workers.dev/x402/premium/skill-call?skill_id=description-quality" \
+  --url "https://tsuji-x402-endpoint.nagataku021.workers.dev/x402/premium/industry-fact?topic=harness-engineering" \
   --wallet-key "$COINBASE_WALLET_PRIVATE_KEY"  # ※注意: private key 取扱
 # または
 # --wallet-connect 形式で wallet 接続
@@ -95,12 +109,12 @@ x402 protocol 仕様に沿って手動で `X-Payment` header 付与 + USDC trans
 期待 transition:
 
 ```
-Request 1: GET /x402/premium/skill-call?skill_id=description-quality
+Request 1: GET /x402/premium/industry-fact?topic=harness-engineering
 Response 1: HTTP 402 Payment Required + accepts payload
 
 [x402 client が USDC transfer を Base mainnet で実行、 signed payment header を生成]
 
-Request 2: GET /x402/premium/skill-call?skill_id=description-quality
+Request 2: GET /x402/premium/industry-fact?topic=harness-engineering
            X-Payment: <signed payment header>
 Response 2: HTTP 200 OK + skill content payload
 ```
@@ -117,8 +131,9 @@ npm run metrics 1h
 期待 fact(段 2):
 
 - section 4.5「Premium endpoint payment flow」:
-  - `path=/x402/premium/skill-call status=402` 1 件以上(初回 request)
-  - `path=/x402/premium/skill-call status=200` 1 件以上(payment 後 retry success)
+  - `path=/x402/premium/industry-fact status=402` 1 件以上(初回 request)
+  - `path=/x402/premium/industry-fact status=200` 1 件以上(payment 後 retry success)
+  - **200 が出ないと settle していない**(x402-hono は 4xx で settle をスキップする)= 段 3 も掲載要件① も未達
 - → 段 2 経済成立 verify ✅ 達成
 
 ### Step 4: 段 3 verify(wallet 着金)
