@@ -273,6 +273,16 @@ deploy + verify:
 - **次の手の順序**: (1) 自己送金 1 件で掲載要件① を通す(永井さま手元 $0.11 + 15-30 分、 **前提なし**)→ (2) メタデータ追加で要件② → (3) v2 移行の是非は 1・2 の後(Gateway GA で移行自体が不要になりうるので先に半日投じない)→ (4) waitlist 選定連絡監視。 **(3) を (1) より先にやらない**のが要点
 - **負け条件**: 2026-11-11 までに wallet へ AI エージェント由来の着金が 1 件でもあれば「到達は支払いの先行指標ではない」 判定は誤り(確認 = `npm run wallet` + `npm run metrics 90d`)
 
+**Phase 1.6 Bazaar 掲載要件② deploy 完了 ✅(2026-08-11 19:48 JST)** ─ 永井さま認可(「マージしてデプロイして大丈夫ですよ」)を受けて PR #19 merge + production deploy 完走:
+
+- **deploy**: PR #18 merge(`761464a`)→ PR #19 merge(`6a98506`)→ `npm run deploy` → **Version ID `93b41b69-c6c9-4b7b-bcfc-50ae1b7d3f52`**(前版 = `0f1a0cb7-c4f5-4bb2-acff-9e0967911124`、 2026-05-12 deploy の 0.12.0)。 rollback 1 行 = `npx wrangler rollback 0f1a0cb7-c4f5-4bb2-acff-9e0967911124`
+- **capabilities version**: `0.12.0-phase1-discovery-layer` → **`0.13.0-bazaar-discovery-metadata`**
+- **変更内容**: premium 4 endpoint の config に `inputSchema`(queryParams の実例)+ `outputSchema`(応答例)追加 / `description` を「エージェントがいつ使うべきか」 が読める文へ / stale だった testnet 表記 2 件修正(`skill-catalog` の pricing と `skill-call` の network、 mainnet 移行は 2026-05-10 完了済なので 3 ヶ月古い情報を配信していた)
+- **production verify ✅**: 無料 endpoint 7 件全 200(`/` / skill-catalog / brand-fact / llms.txt / agentic-capabilities.json / robots.txt / sitemap.xml)、 有料 4 件全 402、 industry-fact / memory / workflow-template の 402 payload に `input.queryParams` + `output.example` 配信確認、 `discoverable: true` と `type` / `method` 非破壊、 `base-sepolia` 残留 0 件
+- **⚠️ deploy 直後の測定は混在読みになる(新規 trap)**: deploy 約 30 秒後の 1 回目 verify で **version は 0.12.0 のまま / skill-call だけ新 payload / 他 3 件は旧 payload** という矛盾した読みが出た。 edge 伝播中で新旧ノードが混ざった状態。 version 文字列だけ見ていれば「deploy 失敗」 と誤判定して rollback していた ── **同一実行内の矛盾が伝播中の signal**。 1 分後の再測定で全件期待どおりに揃った。 `~/.claude/rules/verify.md` §13 の family(観測を事実として読む前に測り直す)
+- **残っている gate**: 掲載要件①(CDP Facilitator 経由の課金成功 1 件)= **未達**。 `docs/phase1-self-verify-runbook.md`(対象を industry-fact に変更済、 $0.11 + 15-30 分、 永井さま手元)を実行すると通る想定。 実行後は runbook §6 の掲載チェック(対照行つき)で Bazaar 索引 14,650 件に載ったかを確認する
+- **未修正で残した defect 3 件(product 判断)**: (1) skill-call は `app.post` のみだが 402 では `method: GET` と広告する食い違い(GET で払うと 404 → x402-hono が 4xx で settle しないため決済未確定)/ (2) skill-call の応答が Phase 0.8 placeholder のまま $0.10 課金対象 = **中身が無いものを売っている**(推奨 = 有料 route から外す)/ (3) `npm run typecheck` が main 時点で既に失敗(`@coinbase/x402` v2 core と `x402-hono@1.2.0` の FacilitatorConfig 型非互換、 commit 済み lock で再現、 `wrangler deploy` は esbuild で型を見ないため 3 ヶ月潜在化)= v1/v2 系列分裂の具体症状
+
 残 task(2026-05-12 update 時点、 別 turn 永井さま judgment trigger 待ち):
 
 ### 🚀 AI agent reach 加速 path(優先度高)
