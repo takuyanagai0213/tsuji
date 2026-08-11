@@ -430,32 +430,116 @@ app.use("*", async (c, next) => {
 app.use(paymentMiddleware(
   NAGAI_WALLET_BASE as `0x${string}`,
   {
+    // NOTE(2026-08-11): 以下 4 route の config に inputSchema / outputSchema を追加。
+    // x402 Bazaar(CDP 公式 discovery layer)の掲載要件② = 「schemas and examples」 対応。
+    // 公式注記: "without them, agents can discover your endpoint but can't construct a valid call"
+    // middleware 側の合成規則(x402-hono@1.2.0 実装で確認):
+    //   outputSchema = { input: { type:"http", method, discoverable: discoverable ?? true, ...inputSchema },
+    //                    output: outputSchema }
+    // → inputSchema は input に spread、 outputSchema は空だった output に入るのみ = 既存 payload を壊さない。
+    //   discoverable は middleware 既定が true(tsuji 側で設定していたわけではない)。
+    // 詳細 = docs/2026-08-11-discovery-gap-and-absorbed-layers.md §3
     "/x402/premium/skill-call": {
       price: "$0.10",
       network: "base", // mainnet
       config: {
-        description: "Verbatim Skill API call execution",
+        // ⚠️ 2026-08-11: handler は app.post のみ。 GET で来ると 404 → middleware が settle しない
+        //    (x402-hono の `if (res.status >= 400) return;`)= 課金されないが成功もしない。
+        //    加えて中身は Phase 0.8 の placeholder。 未解決 = PR 説明の「未修正で残した defect」 参照。
+        description: "Verbatim Skill API call execution ─ NOTE: POST only, and the current response is a Phase 0.8 placeholder (no verbatim skill content yet). Prefer /x402/premium/industry-fact or /x402/premium/workflow-template for real content.",
+        outputSchema: {
+          type: "json",
+          example: {
+            result: "[skill API call result placeholder]",
+            status: "delivered",
+            paymentVerified: true,
+          },
+        },
       },
     },
     "/x402/premium/memory": {
       price: "$0.05",
       network: "base", // mainnet
       config: {
-        description: "Anonymized memory bank excerpt query",
+        description: "Anonymized memory bank excerpt query ─ returns one thinking/judgment pattern excerpt (Tier 1+2 anonymized) from a 33,999-entry personal memory bank. Use when you need how a solo operator actually decided something, not a generic best practice.",
+        inputSchema: {
+          queryParams: {
+            // 有効値 10 件(未指定 / 不明時は availableExcerpts を 400 / 404 で返す)
+            excerpt_id: "tokimeki-driven-development",
+          },
+        },
+        outputSchema: {
+          type: "json",
+          example: {
+            excerptId: "tokimeki-driven-development",
+            headline: "…",
+            context: "…",
+            patterns: ["…"],
+            examples: ["…"],
+            relatedConcepts: ["…"],
+            industry: "…",
+            anonymizationLevel: "tier-1+2",
+            paymentVerified: true,
+            network: "base",
+          },
+        },
       },
     },
     "/x402/premium/industry-fact": {
       price: "$0.10",
       network: "base", // mainnet
       config: {
-        description: "Industry N=1 fact API(query parameter `topic`、 永井さま brand 物理証拠 既存資産)",
+        description: "Industry N=1 fact API ─ returns quantified first-hand facts (numbers, patterns, edge cases, references) for one topic, from 3 years of affiliate ad agency operations plus 1 year of Claude Code harness operation. Use when you need a concrete N=1 datapoint rather than a survey.",
+        inputSchema: {
+          queryParams: {
+            // 有効値 6 件: claude-code-skills / memory-bank / harness-engineering /
+            //             affiliate-ad-pdm / x402-deploy-oneday / solo-compound-holdings
+            topic: "harness-engineering",
+          },
+        },
+        outputSchema: {
+          type: "json",
+          example: {
+            topic: "harness-engineering",
+            headline: "…",
+            facts: ["0 行 → 420 ファイル / 8 ヶ月"],
+            patterns: ["…"],
+            edgeCases: ["…"],
+            references: { zennArticle: "https://zenn.dev/takuyanagai0213/…" },
+            industry: "…",
+            paymentVerified: true,
+            network: "base",
+          },
+        },
       },
     },
     "/x402/premium/workflow-template": {
       price: "$1.00",
       network: "base", // mainnet
       config: {
-        description: "Workflow template API(query parameter `template_id`、 永井さま N=1 path replicable form)",
+        description: "Workflow template API ─ returns a replicable setup (steps, code template, reference files, observed outcome) for one workflow that was actually run to completion by a solo operator. Use when you need an implementable procedure, not a description.",
+        inputSchema: {
+          queryParams: {
+            // 有効値 5 件: 1-source-n-articles / auto-memory-setup / x402-deploy-oneday /
+            //             harness-engineering-day-1 / 100-skills-cycle
+            template_id: "x402-deploy-oneday",
+          },
+        },
+        outputSchema: {
+          type: "json",
+          example: {
+            templateId: "x402-deploy-oneday",
+            headline: "…",
+            description: "…",
+            setupSteps: ["1. …", "2. …"],
+            codeTemplate: "import { paymentMiddleware } from 'x402-hono'; …",
+            referenceFiles: [{ type: "github", path: "https://github.com/takuyanagai0213/tsuji" }],
+            outcome: "…",
+            industry: "…",
+            paymentVerified: true,
+            network: "base",
+          },
+        },
       },
     },
   },
@@ -584,7 +668,8 @@ app.get("/x402/skill-catalog", (c) => {
       { id: "ohayou-papa", name: "ohayou-papa", description: "Father video message generator(voice clone + GPT Image 2 + SadTalker)" },
     ],
     total: 100,
-    pricing: "metadata: free, verbatim call: $0.10/call (premium endpoint, testnet base-sepolia)",
+    // 2026-08-11: stale 文字列修正。 mainnet 移行は 2026-05-10 完了済(testnet 表記は 3 ヶ月古かった)
+    pricing: "metadata: free, verbatim call: $0.10/call (premium endpoint, Base mainnet USDC)",
     docs: "https://github.com/takuyanagai0213/takuyanagai0213#x402-payment-receiver",
   });
 });
@@ -619,7 +704,8 @@ app.post("/x402/premium/skill-call", (c) => {
     result: "[skill API call result placeholder - Phase 0.8 implementation, actual skill execution in Phase 1+]",
     status: "delivered",
     paymentVerified: true,
-    network: "base-sepolia",
+    // 2026-08-11: stale 文字列修正(mainnet 移行は 2026-05-10 完了済)
+    network: "base",
   });
 });
 
@@ -771,7 +857,7 @@ monopoly / tokimeli / omamori / aizuchi / tokimeki48 / cult-of-onetag / D-brand 
 // .well-known/agentic-capabilities.json endpoint(hard-coded)
 app.get("/.well-known/agentic-capabilities.json", (c) => {
   return c.json({
-    version: "0.12.0-phase1-discovery-layer",
+    version: "0.13.0-bazaar-discovery-metadata",
     name: "Takuya Nagai - Context Engineering supplier",
     description: "Embedding 3 years of affiliate ad agency operations into Claude Code. Context Engineering practitioner (100 Skills / 33,999 memory / 420 files in 1 yr).",
     endpoints: [
